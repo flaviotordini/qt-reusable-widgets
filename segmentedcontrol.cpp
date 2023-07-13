@@ -123,9 +123,9 @@ bool SegmentedControl::event(QEvent *event) {
 
 void SegmentedControl::setupColors() {
 #ifdef Q_OS_WIN
-    backgroundColor = palette().color(QPalette::Base);
+    backgroundColor = qApp->palette().color(QPalette::Base);
 #else
-    backgroundColor = palette().color(QPalette::Window);
+    backgroundColor = qApp->palette().color(QPalette::Window);
 #endif
     int factor = backgroundColor.lightness() > 128 ? 105 : 80;
     selectedColor = backgroundColor.darker(factor);
@@ -176,7 +176,7 @@ void SegmentedControl::paintButton(QPainter *painter, const QRect &rect, const Q
 
     const QString text = action->text();
 
-    painter->setPen(palette().windowText().color());
+    painter->setPen(qApp->palette().windowText().color());
     painter->drawText(0, 0, width, height, Qt::AlignCenter, text);
 
     painter->restore();
