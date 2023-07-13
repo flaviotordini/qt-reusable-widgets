@@ -22,6 +22,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void leaveEvent(QEvent *event);
+    bool event(QEvent *event);
 
 private slots:
     void setupColors();

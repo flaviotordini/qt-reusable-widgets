@@ -113,6 +113,14 @@ void SegmentedControl::leaveEvent(QEvent *event) {
     update();
 }
 
+bool SegmentedControl::event(QEvent *event) {
+    if (event->type() == QEvent::ApplicationPaletteChange) {
+        setupColors();
+        update();
+    }
+    return QWidget::event(event);
+}
+
 void SegmentedControl::setupColors() {
 #ifdef Q_OS_WIN
     backgroundColor = palette().color(QPalette::Base);
