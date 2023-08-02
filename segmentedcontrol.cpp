@@ -170,7 +170,9 @@ void SegmentedControl::paintButton(QPainter *painter, const QRect &rect, const Q
 
     if (c.isValid()) {
         const int margin = rect.height() * .2;
-        QRect bgRect = rect.marginsRemoved(QMargins(margin, margin, margin, margin));
+        QRect bgRect = rect.marginsRemoved(QMargins(0, margin, 0, margin));
+        int width = painter->fontMetrics().horizontalAdvance(action->text());
+        bgRect.setWidth(width + margin * 2);
         bgRect.moveCenter(rect.center());
         painter->setBrush(c);
         painter->setPen(Qt::NoPen);
