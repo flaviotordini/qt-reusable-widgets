@@ -45,7 +45,7 @@ bool SegmentedControl::setCheckedAction(QAction *action) {
 
 QSize SegmentedControl::minimumSizeHint() const {
     int itemsWidth = calculateButtonWidth() * actionList.size() * 1.2;
-    return (QSize(itemsWidth, QFontMetrics(font()).height() * 2));
+    return (QSize(itemsWidth, QFontMetrics(font()).height() * 3));
 }
 
 void SegmentedControl::paintEvent(QPaintEvent * /*event*/) {
@@ -53,6 +53,7 @@ void SegmentedControl::paintEvent(QPaintEvent * /*event*/) {
     const int width = rect().width();
 
     QPainter p(this);
+    p.fillRect(rect(), backgroundColor);
 
     // Calculate Buttons Size & Location
     const int buttonWidth = width / actionList.size();
@@ -127,9 +128,9 @@ void SegmentedControl::setupColors() {
 #else
     backgroundColor = qApp->palette().color(QPalette::Window);
 #endif
-    int factor = backgroundColor.lightness() > 128 ? 105 : 80;
+    int factor = backgroundColor.lightness() > 128 ? 115 : 80;
     selectedColor = backgroundColor.darker(factor);
-    hoveredColor = selectedColor.darker(factor);
+    hoveredColor = selectedColor;
     pressedColor = hoveredColor.darker(factor);
 }
 
@@ -156,12 +157,6 @@ int SegmentedControl::calculateButtonWidth() const {
 }
 
 void SegmentedControl::paintButton(QPainter *painter, const QRect &rect, const QAction *action) {
-    painter->save();
-    painter->translate(rect.topLeft());
-
-    const int height = rect.height();
-    const int width = rect.width();
-
     QColor c;
     if (action == checkedAction) {
         c = selectedColor;
@@ -169,15 +164,21 @@ void SegmentedControl::paintButton(QPainter *painter, const QRect &rect, const Q
         c = pressedColor;
     } else if (action == hoveredAction) {
         c = hoveredColor;
-    } else {
-        c = backgroundColor;
     }
-    painter->fillRect(0, 0, width, height, c);
 
-    const QString text = action->text();
+    painter->save();
+
+    if (c.isValid()) {
+        const int margin = rect.height() * .2;
+        QRect bgRect = rect.marginsRemoved(QMargins(margin, margin, margin, margin));
+        bgRect.moveCenter(rect.center());
+        painter->setBrush(c);
+        painter->setPen(Qt::NoPen);
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->drawRoundedRect(bgRect, margin, margin);
+    }
 
     painter->setPen(qApp->palette().windowText().color());
-    painter->drawText(0, 0, width, height, Qt::AlignCenter, text);
-
+    painter->drawText(rect, Qt::AlignCenter, action->text());
     painter->restore();
 }
