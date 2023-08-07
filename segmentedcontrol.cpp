@@ -74,6 +74,8 @@ void SegmentedControl::paintEvent(QPaintEvent * /*event*/) {
 }
 
 void SegmentedControl::mouseMoveEvent(QMouseEvent *event) {
+    QWidget::mouseMoveEvent(event);
+
     QAction *action = findHoveredAction(event->pos());
 
     if (!action && hoveredAction) {
