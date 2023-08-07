@@ -2,7 +2,6 @@
 
 SegmentedControl::SegmentedControl(QWidget *parent) : QWidget(parent) {
     setAttribute(Qt::WA_OpaquePaintEvent);
-    setFocusPolicy(Qt::TabFocus);
     setMouseTracking(true);
 
     hoveredAction = nullptr;
