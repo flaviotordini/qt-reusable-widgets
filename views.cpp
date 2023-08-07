@@ -2,50 +2,26 @@
 
 Views::Views(QWidget *parent) : QStackedWidget(parent) {}
 
-void Views::addView(View *view) {
-    view->setEnabled(false);
-    addWidget(view);
-}
-
-void Views::setHomeView(View *view) {
-    home = view;
+void Views::setHome(QWidget *widget) {
+    home = widget;
 }
 
 void Views::goHome() {
-    if (home) showView(home);
+    if (home) setCurrentWidget(home);
 }
 
-void Views::showView(View *view) {
-    if (!history.isEmpty() && view == history.top()) {
-        qDebug() << "Attempting to show same view" << view;
-        return;
-    }
-
-    // call hide method on the current view
-    View *oldView = history.isEmpty() ? nullptr : history.top();
-    if (oldView) {
-        oldView->willDisappear();
-        oldView->disappear();
-        oldView->setEnabled(false);
-        oldView->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    } else
-        qDebug() << "Cannot cast old view";
-
-    view->willAppear();
-    view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    view->setEnabled(true);
-    setCurrentWidget(view);
-    view->appear();
-    view->didAppear();
-    if (oldView) oldView->didDisappear();
-
-    history.push(view);
+void Views::setCurrentWidget(QWidget *widget) {
+    QStackedWidget::setCurrentWidget(widget);
+    auto previous = history.isEmpty() ? nullptr : history.top();
+    if (previous) previous->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    history.push(widget);
 }
 
 bool Views::goBack() {
     if (canGoBack()) {
         history.pop();
-        showView(history.pop());
+        setCurrentWidget(history.pop());
         return true;
     }
     return false;
