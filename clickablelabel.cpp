@@ -31,6 +31,13 @@ void ClickableLabel::focusOutEvent(QFocusEvent *e) {
     QLabel::focusOutEvent(e);
 }
 
+void ClickableLabel::keyPressEvent(QKeyEvent *e) {
+    if (e->key() == Qt::Key_Return) {
+        emit clicked();
+    } else
+        QLabel::keyPressEvent(e);
+}
+
 void ClickableLabel::enterEvent(CompatibleEnterEvent *e) {
     setForegroundRole(QPalette::Highlight);
     emit hovered(true);
