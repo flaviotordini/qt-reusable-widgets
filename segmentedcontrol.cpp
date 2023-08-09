@@ -87,6 +87,8 @@ void SegmentedControl::mouseMoveEvent(QMouseEvent *event) {
         update();
 
         setStatusTip(action->statusTip());
+        QStatusTipEvent tip(action->statusTip());
+        QCoreApplication::sendEvent(this, &tip);
     }
 }
 
@@ -109,7 +111,6 @@ void SegmentedControl::mouseReleaseEvent(QMouseEvent *event) {
 
 void SegmentedControl::leaveEvent(QEvent *event) {
     QWidget::leaveEvent(event);
-    setStatusTip(QString());
     hoveredAction = nullptr;
     pressedAction = nullptr;
     update();
