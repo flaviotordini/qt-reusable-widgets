@@ -24,6 +24,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e);
     void enterEvent(CompatibleEnterEvent *e);
     void leaveEvent(QEvent *e);
+    void focusInEvent(QFocusEvent *e);
+    void focusOutEvent(QFocusEvent *e);
 };
 
 #endif // CLICKABLELABEL_H

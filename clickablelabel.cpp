@@ -21,6 +21,16 @@ void ClickableLabel::leaveEvent(QEvent *e) {
     QLabel::leaveEvent(e);
 }
 
+void ClickableLabel::focusInEvent(QFocusEvent *e) {
+    setForegroundRole(QPalette::Highlight);
+    QLabel::focusInEvent(e);
+}
+
+void ClickableLabel::focusOutEvent(QFocusEvent *e) {
+    setForegroundRole(QPalette::WindowText);
+    QLabel::focusOutEvent(e);
+}
+
 void ClickableLabel::enterEvent(CompatibleEnterEvent *e) {
     setForegroundRole(QPalette::Highlight);
     emit hovered(true);
