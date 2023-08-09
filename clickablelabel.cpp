@@ -2,10 +2,12 @@
 
 ClickableLabel::ClickableLabel(QWidget *parent) : QLabel(parent) {
     setCursor(Qt::PointingHandCursor);
+    setFocusPolicy(Qt::TabFocus);
 }
 
 ClickableLabel::ClickableLabel(const QString &text, QWidget *parent) : QLabel(text, parent) {
     setCursor(Qt::PointingHandCursor);
+    setFocusPolicy(Qt::TabFocus);
 }
 
 void ClickableLabel::mouseReleaseEvent(QMouseEvent *e) {
@@ -14,11 +16,13 @@ void ClickableLabel::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 void ClickableLabel::leaveEvent(QEvent *e) {
+    setForegroundRole(QPalette::WindowText);
     emit hovered(false);
     QLabel::leaveEvent(e);
 }
 
 void ClickableLabel::enterEvent(CompatibleEnterEvent *e) {
+    setForegroundRole(QPalette::Highlight);
     emit hovered(true);
     QLabel::enterEvent(e);
 }
