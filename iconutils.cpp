@@ -2,16 +2,6 @@
 
 namespace {
 
-void addIconFile(QIcon &icon,
-                 const QString &filename,
-                 int size,
-                 QIcon::Mode mode = QIcon::Normal,
-                 QIcon::State state = QIcon::Off) {
-    if (QFile::exists(filename)) {
-        icon.addFile(filename, QSize(size, size), mode, state);
-    }
-}
-
 QList<int> sizes;
 
 } // namespace
@@ -44,7 +34,13 @@ QIcon IconUtils::fromResources(const char *name, const QColor &background) {
         path += QLatin1String("dark/");
     QIcon icon;
 
-    // WARN keep these sizes updated with what we really use
+    auto addIconFile = [](QIcon &icon, const QString &filename, int size,
+                          QIcon::Mode mode = QIcon::Normal, QIcon::State state = QIcon::Off) {
+        if (QFile::exists(filename)) {
+            icon.addFile(filename, QSize(size, size), mode, state);
+        }
+    };
+
     for (int size : qAsConst(sizes)) {
         const QString pathAndName =
                 path + QString::number(size) + QLatin1Char('/') + QLatin1String(name);
