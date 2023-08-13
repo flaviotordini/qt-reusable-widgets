@@ -4,7 +4,7 @@
 #include <QtCore/QObject>
 
 /***
- * This class enables the use of lambdas with QObject::installEventFilter
+ * QObject event filtering using lambdas
  */
 template <class Function> class LambdaEventFilter : public QObject {
 public:
