@@ -8,7 +8,7 @@
  */
 template <class Function> class LambdaEventFilter : public QObject {
 public:
-    explicit LambdaEventFilter(QObject *obj, Function func) : func(func), QObject{obj} {
+    explicit LambdaEventFilter(QObject *obj, Function func) : QObject(obj), func(func) {
         obj->installEventFilter(this);
     }
 
