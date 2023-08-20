@@ -33,11 +33,12 @@ public:
                      const QColor &color,
                      QPainter::CompositionMode mode = QPainter::CompositionMode_SourceIn);
 
-    // HiDPI stuff
     static QPixmap pixmap(const char *name, const qreal pixelRatio);
     static QPixmap pixmap(const QString &filename, const qreal pixelRatio);
-    static QPixmap
-    iconPixmap(const char *name, int size, const QColor &background, const qreal pixelRatio);
+    static QPixmap iconPixmap(const char *name,
+                              int size,
+                              const QColor &background = qApp->palette().window().color(),
+                              const qreal pixelRatio = qApp->devicePixelRatio());
 
 private:
     IconUtils() {}
