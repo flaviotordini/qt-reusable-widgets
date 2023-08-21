@@ -8,6 +8,9 @@ class ZoomableUI : public QObject {
 
 public:
     ZoomableUI(QMainWindow &window);
+    QList<QAction *> getActions() { return actions; }
+
+private:
     QList<QAction *> actions;
 };
 
