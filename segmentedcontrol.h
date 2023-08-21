@@ -40,7 +40,6 @@ private:
     QColor backgroundColor;
     QColor selectedColor;
     QColor hoveredColor;
-    QColor pressedColor;
 };
 
 #endif /* !SEGMENTEDCONTROL_H */

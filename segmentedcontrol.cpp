@@ -130,10 +130,9 @@ void SegmentedControl::setupColors() {
 #else
     backgroundColor = qApp->palette().color(QPalette::Window);
 #endif
-    int factor = backgroundColor.lightness() > 128 ? 115 : 80;
-    selectedColor = backgroundColor.darker(factor);
-    hoveredColor = selectedColor;
-    pressedColor = hoveredColor.darker(factor);
+    int factor = backgroundColor.lightness() > 128 ? 105 : 90;
+    hoveredColor = backgroundColor.darker(factor);
+    selectedColor = hoveredColor.darker(factor);
 }
 
 QAction *SegmentedControl::findHoveredAction(const QPoint &pos) const {
@@ -162,27 +161,41 @@ void SegmentedControl::paintButton(QPainter *painter, const QRect &rect, const Q
     QColor c;
     if (action == checkedAction) {
         c = selectedColor;
-    } else if (action == pressedAction) {
-        c = pressedColor;
     } else if (action == hoveredAction) {
         c = hoveredColor;
     }
 
     painter->save();
 
+    int iconSize = painter->fontMetrics().height();
+    QIcon icon = action->icon();
+
     if (c.isValid()) {
-        const int margin = rect.height() * .2;
-        QRect bgRect = rect.marginsRemoved(QMargins(0, margin, 0, margin));
-        int width = painter->fontMetrics().horizontalAdvance(action->text());
-        bgRect.setWidth(width + margin * 2);
-        bgRect.moveCenter(rect.center());
         painter->setBrush(c);
         painter->setPen(Qt::NoPen);
         painter->setRenderHint(QPainter::Antialiasing);
-        painter->drawRoundedRect(bgRect, margin, margin);
+
+        if (icon.isNull()) {
+            const int margin = rect.height() * .2;
+            QRect bgRect = rect.marginsRemoved(QMargins(0, margin, 0, margin));
+            int width = painter->fontMetrics().horizontalAdvance(action->text());
+            bgRect.setWidth(width + margin * 2);
+            bgRect.moveCenter(rect.center());
+            painter->drawRoundedRect(bgRect, margin, margin);
+        } else {
+            QRect bgRect(0, 0, iconSize * 1.75, iconSize * 1.75);
+            bgRect.moveCenter(rect.center());
+            painter->drawEllipse(bgRect);
+        }
     }
 
-    painter->setPen(qApp->palette().windowText().color());
-    painter->drawText(rect, Qt::AlignCenter, action->text());
+    if (icon.isNull()) {
+        painter->setPen(qApp->palette().windowText().color());
+        painter->drawText(rect, Qt::AlignCenter, action->text());
+    } else {
+        painter->drawPixmap(rect.center() - QPoint(iconSize / 2, iconSize / 2),
+                            icon.pixmap(iconSize));
+    }
+
     painter->restore();
 }
