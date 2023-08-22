@@ -55,6 +55,7 @@ ZoomableUI::ZoomableUI(QMainWindow &window) : QObject(&window) {
     auto createAction = [this, applyZoom, &window](QString text, QKeySequence keySeq, int zoom) {
         auto action = new QAction(text, &window);
         action->setShortcut(keySeq);
+        action->setAutoRepeat(false);
         window.addAction(action);
         actions.append(action);
         connect(action, &QAction::triggered, this, [applyZoom, zoom] { applyZoom(zoom); });
