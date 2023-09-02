@@ -131,10 +131,10 @@ QPixmap IconUtils::pixmap(const char *name, const qreal pixelRatio) {
 QPixmap IconUtils::pixmap(const QString &filename, const qreal pixelRatio) {
     // Check if a "@2x" file exists
     if (pixelRatio > 1.0) {
-        int dotIndex = filename.lastIndexOf(QLatin1Char('.'));
+        int dotIndex = filename.lastIndexOf('.');
         if (dotIndex != -1) {
             QString at2xfileName = filename;
-            at2xfileName.insert(dotIndex, QLatin1String("@2x"));
+            at2xfileName.insert(dotIndex, "@2x");
             if (QFile::exists(at2xfileName)) {
                 QPixmap pixmap(at2xfileName);
                 pixmap.setDevicePixelRatio(pixelRatio);
