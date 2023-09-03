@@ -27,11 +27,8 @@ QIcon IconUtils::fromResources(const char *name, const QColor &background) {
     static const QLatin1String ext(".png");
 
     QString path = QStringLiteral(":/icons/");
+    path += background.value() > 128 ? "light/" : "dark/";
 
-    if (background.value() > 128)
-        path += QLatin1String("light/");
-    else
-        path += QLatin1String("dark/");
     QIcon icon;
 
     auto addIconFile = [](QIcon &icon, const QString &filename, int size,
@@ -42,8 +39,7 @@ QIcon IconUtils::fromResources(const char *name, const QColor &background) {
     };
 
     for (int size : qAsConst(sizes)) {
-        const QString pathAndName =
-                path + QString::number(size) + QLatin1Char('/') + QLatin1String(name);
+        const QString pathAndName = path + QString::number(size) + '/' + name;
         QString iconFilename = pathAndName + ext;
         if (QFile::exists(iconFilename)) {
             addIconFile(icon, iconFilename, size);
