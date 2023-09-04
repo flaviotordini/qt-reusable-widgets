@@ -57,7 +57,7 @@ StatusLabel::StatusLabel(QMainWindow *window) : QLabel(window) {
             }
 
             filtered = true;
-        } else if (e->type() == QEvent::Resize || e->type() == QEvent::LayoutRequest) {
+        } else if (e->type() == QEvent::Resize) {
             adjustPosition();
         }
         return filtered;
