@@ -21,7 +21,11 @@ StatusLabel::StatusLabel(QMainWindow *window) : QLabel(window) {
         clear();
     });
 
-    new LambdaEventFilter(window, [this, window](auto o, auto e) {
+    auto adjustPosition = [this, window] {
+        move(0, (window->centralWidget()->y() + window->centralWidget()->height()) - height());
+    };
+
+    new LambdaEventFilter(window, [this, window, adjustPosition](auto o, auto e) {
         bool filtered = false;
 
         if (e->type() == QEvent::StatusTip) {
@@ -47,16 +51,14 @@ StatusLabel::StatusLabel(QMainWindow *window) : QLabel(window) {
                 timer->start();
 
                 if (isHidden() && window->isVisible()) {
-                    move(0, window->centralWidget()->height() - height());
+                    adjustPosition();
                     show();
                 }
             }
 
-            // TODO timer
-            // QTimer::singleShot(10000, this, &QWidget::hide);
             filtered = true;
-        } else if (e->type() == QEvent::Resize) {
-            move(0, window->centralWidget()->height() - height());
+        } else if (e->type() == QEvent::Resize || e->type() == QEvent::LayoutRequest) {
+            adjustPosition();
         }
         return filtered;
     });
