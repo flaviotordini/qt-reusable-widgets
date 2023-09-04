@@ -4,7 +4,7 @@
 #include <QtGui/QResizeEvent>
 #include <QtGui/QStatusTipEvent>
 
-StatusLabel::StatusLabel(QWidget *window) : QLabel(window) {
+StatusLabel::StatusLabel(QMainWindow *window) : QLabel(window) {
     setTextFormat(Qt::PlainText);
     setBackgroundRole(QPalette::Base);
     setForegroundRole(QPalette::Text);
@@ -47,7 +47,7 @@ StatusLabel::StatusLabel(QWidget *window) : QLabel(window) {
                 timer->start();
 
                 if (isHidden() && window->isVisible()) {
-                    move(0, window->height() - height());
+                    move(0, window->centralWidget()->height() - height());
                     show();
                 }
             }
@@ -56,8 +56,7 @@ StatusLabel::StatusLabel(QWidget *window) : QLabel(window) {
             // QTimer::singleShot(10000, this, &QWidget::hide);
             filtered = true;
         } else if (e->type() == QEvent::Resize) {
-            auto re = static_cast<QResizeEvent *>(e);
-            this->move(0, re->size().height() - height());
+            move(0, window->centralWidget()->height() - height());
         }
         return filtered;
     });

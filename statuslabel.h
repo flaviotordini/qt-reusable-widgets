@@ -7,7 +7,7 @@ class StatusLabel : public QLabel {
     Q_OBJECT
 
 public:
-    StatusLabel(QWidget *window);
+    StatusLabel(QMainWindow *window);
 
 private:
     QTimer *timer;
