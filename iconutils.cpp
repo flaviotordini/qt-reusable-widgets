@@ -63,7 +63,8 @@ QIcon IconUtils::icon(const char *name, const QColor &background) {
         return c;
     }();
 
-    auto i = cache.constFind(QByteArray::fromRawData(name, strlen(name)));
+    QByteArray key = QByteArray::fromRawData(name, strlen(name)) + background.value();
+    auto i = cache.constFind(key);
     if (i != cache.constEnd()) return i.value();
 
     QIcon icon;
@@ -74,7 +75,7 @@ QIcon IconUtils::icon(const char *name, const QColor &background) {
     icon = fromResources(name, background);
 #endif
 
-    cache.insert(QByteArray(name), icon);
+    cache.insert(key, icon);
     return icon;
 }
 
