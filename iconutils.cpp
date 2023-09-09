@@ -25,9 +25,10 @@ QIcon IconUtils::fromResources(const char *name, const QColor &background) {
     static const QLatin1String disabled("_disabled");
     static const QLatin1String checked("_checked");
     static const QLatin1String ext(".png");
+    static const QLatin1String darkPath(":/icons/dark/");
+    static const QLatin1String lightPath(":/icons/light/");
 
-    QString path = QStringLiteral(":/icons/");
-    path += background.value() > 128 ? "light/" : "dark/";
+    const QLatin1String path = background.value() > 128 ? lightPath : darkPath;
 
     QIcon icon;
 
