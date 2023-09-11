@@ -1,7 +1,8 @@
 #ifndef MESSAGEBAR_H
 #define MESSAGEBAR_H
 
-#include <QtWidgets>
+#include <QLabel>
+#include <QWidget>
 
 class MessageBar : public QWidget {
     Q_OBJECT
@@ -9,17 +10,17 @@ class MessageBar : public QWidget {
 public:
     MessageBar(QWidget *parent = 0);
     void setMessage(const QString &message);
-    void setOpenExternalLinks(bool value);
 
 signals:
-    void linkActivated(const QString &link);
+    void clicked();
     void closed();
 
 protected:
     void paintEvent(QPaintEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
 
 private:
-    QLabel *msgLabel;
+    QLabel *label;
 };
 
 #endif // MESSAGEBAR_H

@@ -2,30 +2,36 @@
 #include "iconutils.h"
 
 MessageBar::MessageBar(QWidget *parent) : QWidget(parent) {
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    setStyleSheet("border-radius: 5px;"
+                  "background: palette(highlight);"
+                  "color: palette(highlighted-text);");
+    setCursor(Qt::PointingHandCursor);
 
-    QBoxLayout *layout = new QHBoxLayout(this);
-    layout->setSpacing(16);
+    const int padding = 10;
 
-    msgLabel = new QLabel();
-    connect(msgLabel, &QLabel::linkActivated, this, &MessageBar::linkActivated);
-    layout->addWidget(msgLabel);
+    auto layout = new QHBoxLayout(this);
+    layout->setContentsMargins(padding, 0, padding, 0);
+    layout->setSpacing(padding);
 
-    QToolButton *closeToolButton = new QToolButton();
-    closeToolButton->setIcon(IconUtils::icon("close"));
-    connect(closeToolButton, &QToolButton::clicked, this, [this] {
+    label = new QLabel();
+    label->setContentsMargins(0, padding, 0, padding);
+    label->setAlignment(Qt::AlignCenter);
+    layout->addWidget(label);
+
+    auto closeButton = new QToolButton();
+    closeButton->setStyleSheet("border:0");
+    closeButton->setIconSize({24, 24});
+    closeButton->setAutoRaise(true);
+    closeButton->setIcon(IconUtils::icon("close"));
+    connect(closeButton, &QToolButton::clicked, this, [this] {
         emit closed();
         hide();
     });
-    layout->addWidget(closeToolButton);
+    layout->addWidget(closeButton);
 }
 
 void MessageBar::setMessage(const QString &message) {
-    msgLabel->setText(message);
-}
-
-void MessageBar::setOpenExternalLinks(bool value) {
-    msgLabel->setOpenExternalLinks(value);
+    label->setText(message);
 }
 
 void MessageBar::paintEvent(QPaintEvent *e) {
@@ -34,4 +40,8 @@ void MessageBar::paintEvent(QPaintEvent *e) {
     o.initFrom(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
+}
+
+void MessageBar::mouseReleaseEvent(QMouseEvent *e) {
+    emit clicked();
 }
