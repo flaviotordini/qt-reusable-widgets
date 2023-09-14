@@ -1,7 +1,7 @@
 #ifndef SEEKSLIDER_H
 #define SEEKSLIDER_H
 
-#include <QtWidgets>
+#include <QSlider>
 
 class SeekSlider : public QSlider {
     Q_OBJECT
