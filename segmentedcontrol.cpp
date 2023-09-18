@@ -126,7 +126,7 @@ bool SegmentedControl::event(QEvent *event) {
 
 void SegmentedControl::setupColors() {
     backgroundColor = qApp->palette().color(QPalette::Window);
-    int factor = backgroundColor.lightness() > 128 ? 105 : 90;
+    int factor = backgroundColor.lightness() > 128 ? 105 : 75;
     hoveredColor = backgroundColor.darker(factor);
     selectedColor = hoveredColor.darker(factor);
 }
