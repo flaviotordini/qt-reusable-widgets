@@ -8,7 +8,7 @@ Breadcrumb::Breadcrumb(QWidget *parent) : QToolBar(parent) {
     backAction->setShortcuts({Qt::Key_Escape, Qt::ALT | Qt::Key_Left, Qt::Key_Backspace});
     backAction->setStatusTip(tr("Go back") + " (" +
                              backAction->shortcut().toString(QKeySequence::NativeText) + ")");
-    connect(backAction, SIGNAL(triggered()), SIGNAL(goneBack()));
+    connect(backAction, &QAction::triggered, this, &Breadcrumb::goneBack);
     addAction(backAction);
 
     setIconSize(QSize(24, 24));
