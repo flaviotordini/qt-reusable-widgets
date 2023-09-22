@@ -64,7 +64,7 @@ QIcon IconUtils::icon(const char *name, const QColor &background) {
         return c;
     }();
 
-    QByteArray key = QByteArray::fromRawData(name, strlen(name)) + background.value();
+    QByteArray key = QByteArray::fromRawData(name, strlen(name)).append(background.value());
     auto i = cache.constFind(key);
     if (i != cache.constEnd()) return i.value();
 
