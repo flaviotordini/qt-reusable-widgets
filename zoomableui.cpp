@@ -41,8 +41,10 @@ ZoomableUI::ZoomableUI(QMainWindow &window) : QObject(&window) {
 #ifdef Q_OS_MAC
         // Mac style does not support bigger sizes for buttons
         // https://bugreports.qt.io/browse/QTBUG-116337
-        if (QApplication::style()->name() != "Fusion")
-            QApplication::setFont(defaultAppFont, "QAbstractButton");
+        if (QApplication::style()->name() != "Fusion") {
+            for (auto className : {"QPushButton", "QCheckBox", "QRadioButton"})
+                QApplication::setFont(defaultAppFont, className);
+        }
 #endif
 
         if (saveSetting) settings.setValue("zoom", currentZoom + increment);
