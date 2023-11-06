@@ -26,12 +26,14 @@ void MiniSplitterHandle::resizeEvent(QResizeEvent *event) {
 }
 
 void MiniSplitterHandle::paintEvent(QPaintEvent *event) {
-    QPainter painter(this);
-    QPen pen(palette().color(QPalette::Mid));
-    // cosmetic pen, always 1px
-    pen.setWidth(0);
-    painter.setPen(pen);
-    painter.drawLine(event->rect().topLeft(), event->rect().bottomLeft());
+    if (splitter()->lineWidth() > 0) {
+        QPainter painter(this);
+        QPen pen(palette().color(QPalette::Mid));
+        // cosmetic pen, always 1px
+        pen.setWidth(0);
+        painter.setPen(pen);
+        painter.drawLine(event->rect().topLeft(), event->rect().bottomLeft());
+    }
 }
 
 QSplitterHandle *MiniSplitter::createHandle() {
@@ -41,4 +43,5 @@ QSplitterHandle *MiniSplitter::createHandle() {
 MiniSplitter::MiniSplitter(Qt::Orientation orientation, QWidget *parent) : QSplitter(orientation, parent) {
     setHandleWidth(1);
     setChildrenCollapsible(false);
+    setLineWidth(0); // default to invisible
 }
