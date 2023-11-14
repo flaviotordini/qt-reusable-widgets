@@ -32,7 +32,7 @@ private:
     QAction *findHoveredAction(const QPoint &pos) const;
     int calculateButtonWidth() const;
 
-    QVector<QAction *> actionList;
+    QList<QAction *> actionList;
     QAction *checkedAction;
     QAction *hoveredAction;
     QAction *pressedAction;
