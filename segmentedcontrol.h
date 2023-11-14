@@ -14,7 +14,7 @@ public:
     QSize minimumSizeHint(void) const;
 
 signals:
-    void checkedActionChanged(QAction &action);
+    void checkedActionChanged(const QAction &action);
 
 protected:
     void paintEvent(QPaintEvent *event);
