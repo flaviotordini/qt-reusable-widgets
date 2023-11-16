@@ -26,12 +26,15 @@ void PainterUtils::centeredPixmap(QPixmap pixmap, QWidget *widget) {
 
 QPixmap PainterUtils::roundCorners(QPixmap pixmap, int radius) {
     QPixmap p(pixmap.size());
+    p.setDevicePixelRatio(pixmap.devicePixelRatio());
     p.fill(Qt::transparent);
     QPainter painter(&p);
     painter.setRenderHint(QPainter::Antialiasing);
     QBrush brush(pixmap);
     painter.setBrush(brush);
     painter.setPen(Qt::NoPen);
-    painter.drawRoundedRect(pixmap.rect(), radius, radius);
+    QRect rect(0, 0, pixmap.width() / pixmap.devicePixelRatio(),
+               pixmap.height() / pixmap.devicePixelRatio());
+    painter.drawRoundedRect(rect, radius, radius);
     return p;
 }
