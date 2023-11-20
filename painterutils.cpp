@@ -39,6 +39,33 @@ QPixmap PainterUtils::roundCorners(QPixmap pixmap, int radius) {
     return p;
 }
 
+QPixmap PainterUtils::scaleAndCrop(QPixmap pixmap, QSize size, qreal pixelRatio) {
+    if (pixmap.size().width() < size.width() || pixmap.size().height() < size.height())
+        return pixmap;
+
+    const int pixelWidth = size.width() * pixelRatio;
+    const int pixelHeight = size.height() * pixelRatio;
+
+    int wDiff = pixmap.width() - pixelWidth;
+    int hDiff = pixmap.height() - pixelHeight;
+    if (wDiff > 0 || hDiff > 0) {
+        if (wDiff > hDiff) {
+            pixmap = pixmap.scaledToHeight(pixelHeight, Qt::SmoothTransformation);
+        } else {
+            pixmap = pixmap.scaledToWidth(pixelWidth, Qt::SmoothTransformation);
+        }
+        wDiff = pixmap.width() - pixelWidth;
+        hDiff = pixmap.height() - pixelHeight;
+        int xOffset = 0;
+        int yOffset = 0;
+        if (hDiff > 0) yOffset = hDiff / 4;
+        if (wDiff > 0) xOffset = wDiff / 2;
+        pixmap = pixmap.copy(xOffset, yOffset, pixelWidth, pixelHeight);
+    }
+    pixmap.setDevicePixelRatio(pixelRatio);
+    return pixmap;
+}
+
 QPixmap PainterUtils::collage(QList<QPixmap> fourPics, int width, int height, qreal pixelRatio) {
     QPixmap pixmap = QPixmap(width * pixelRatio, height * pixelRatio);
     pixmap.fill(Qt::transparent);
@@ -59,8 +86,8 @@ QPixmap PainterUtils::collage(QList<QPixmap> fourPics, int width, int height, qr
         int col = i % cols;
         if (col == 0) row++;
         QRect rect(w * col, h * row, w, h);
-        p = p.scaled(w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        painter.drawPixmap(rect, p);
+        p = scaleAndCrop(p, rect.size(), p.devicePixelRatio());
+        painter.drawPixmap(rect.topLeft(), p);
 
         i++;
     }
