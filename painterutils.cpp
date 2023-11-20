@@ -56,7 +56,7 @@ QPixmap PainterUtils::collage(QList<QPixmap> fourPics, int width, int height, qr
     for (auto p : fourPics) {
         if (p.isNull()) continue;
 
-        int col = i % 2;
+        int col = i % cols;
         if (col == 0) row++;
         QRect rect(w * col, h * row, w, h);
         p = p.scaled(w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation);
