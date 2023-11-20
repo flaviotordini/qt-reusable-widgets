@@ -9,6 +9,7 @@ public:
     static void centeredMessage(QString message, QWidget *widget);
     static void centeredPixmap(QPixmap pixmap, QWidget *widget);
     static QPixmap roundCorners(QPixmap pixmap, int radius = 5);
+    static QPixmap collage(QList<QPixmap> fourOrLessPics, int width, int height, qreal pixelRatio);
 
 private:
     PainterUtils();

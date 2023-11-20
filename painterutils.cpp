@@ -38,3 +38,32 @@ QPixmap PainterUtils::roundCorners(QPixmap pixmap, int radius) {
     painter.drawRoundedRect(rect, radius, radius);
     return p;
 }
+
+QPixmap PainterUtils::collage(QList<QPixmap> fourPics, int width, int height, qreal pixelRatio) {
+    QPixmap pixmap = QPixmap(width * pixelRatio, height * pixelRatio);
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    int cols = fourPics.size() >= 4 ? 2 : 1;
+    const int w = pixmap.width() / cols;
+    int rows = cols;
+    const int h = pixmap.height() / rows;
+
+    int i = 0;
+    int row = -1;
+    for (auto p : fourPics) {
+        if (p.isNull()) continue;
+
+        int col = i % 2;
+        if (col == 0) row++;
+        QRect rect(w * col, h * row, w, h);
+        p = p.scaled(w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        painter.drawPixmap(rect, p);
+
+        i++;
+    }
+    pixmap.setDevicePixelRatio(pixelRatio);
+    return pixmap;
+}
