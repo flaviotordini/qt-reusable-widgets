@@ -1,5 +1,4 @@
 #include "appwidget.h"
-#include "constants.h"
 #include "http.h"
 #include "httputils.h"
 
@@ -43,7 +42,7 @@ AppWidget::AppWidget(const QString &name,
     auto loadIconPixmap = [this, unixName] {
         QString twoX;
         if (devicePixelRatio() > 1.0) twoX = '@' + QString::number(devicePixelRatio()) + 'x';
-        QString url = "https://" + QLatin1String(Constants::ORG_DOMAIN) + "/files/products/" +
+        QString url = "https://" + QCoreApplication::organizationDomain() + "/files/products/" +
                       unixName + twoX + ".png";
         auto reply = HttpUtils::cached().get(url);
         connect(reply, &HttpReply::data, this, [this](auto bytes) {
@@ -68,7 +67,7 @@ AppWidget::AppWidget(const QString &name,
     sp.setRetainSizeWhenHidden(true);
     downloadButton->setSizePolicy(sp);
     connect(downloadButton, &QAbstractButton::clicked, this, [this, name, unixName, ext] {
-        QString url = QLatin1String("https://") + Constants::ORG_DOMAIN + "/files/" + unixName +
+        QString url = "https://" + QCoreApplication::organizationDomain() + "/files/" + unixName +
                       "/" + unixName + "." + ext;
         auto dialog = new UpdateDialog(iconLabel->pixmap(), name, QString(), url, this);
         dialog->downloadUpdate();
@@ -94,7 +93,7 @@ void AppWidget::leaveEvent(QEvent *e) {
 
 void AppWidget::mouseReleaseEvent(QMouseEvent *e) {
     if (e->button() == Qt::LeftButton) {
-        QString webPage = QLatin1String("https://") + Constants::ORG_DOMAIN + "/" + unixName;
+        QString webPage = "https://" + QCoreApplication::organizationDomain() + "/" + unixName;
         QDesktopServices::openUrl(webPage);
     }
 }
