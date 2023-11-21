@@ -122,10 +122,6 @@ void IconUtils::tint(QPixmap &pixmap, const QColor &color, QPainter::Composition
     painter.fillRect(pixmap.rect(), color);
 }
 
-QPixmap IconUtils::pixmap(const char *name, const qreal pixelRatio) {
-    return pixmap(QString::fromLatin1(name), pixelRatio);
-}
-
 QPixmap IconUtils::pixmap(const QString &filename, const qreal pixelRatio) {
     // Check if a "@2x" file exists
     if (pixelRatio > 1.0) {
@@ -141,17 +137,4 @@ QPixmap IconUtils::pixmap(const QString &filename, const qreal pixelRatio) {
         }
     }
     return QPixmap(filename);
-}
-
-QPixmap IconUtils::iconPixmap(const char *name,
-                              int size,
-                              const QColor &background,
-                              const qreal pixelRatio) {
-    QString path = QStringLiteral(":/icons/");
-    if (background.value() > 128)
-        path += QLatin1String("light/");
-    else
-        path += QLatin1String("dark/");
-    path += QString::number(size) + QLatin1Char('/') + QLatin1String(name);
-    return IconUtils::pixmap(path, pixelRatio);
 }
