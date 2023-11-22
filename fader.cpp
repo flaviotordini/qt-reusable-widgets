@@ -1,7 +1,9 @@
 #include "fader.h"
 
 void Fader::crossfade(QWidget *w) {
-    if (w->width() * w->height() > 500000) return;
+#ifdef Q_OS_LINUX
+    if (w->width() * w->height() > 1000000) return;
+#endif
     new Fader(w, w->grab());
 }
 
