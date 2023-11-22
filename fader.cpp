@@ -13,7 +13,7 @@ Fader::Fader(QWidget *newWidget, QPixmap oldWidgetPixmap)
     timeLine = new QTimeLine(250, this);
     timeLine->setEasingCurve(QEasingCurve::Linear);
     timeLine->setFrameRange(14, 1);
-    connect(timeLine, &QTimeLine::frameChanged, this, &QWidget::update);
+    connect(timeLine, &QTimeLine::frameChanged, this, [this](int) { update(); });
     connect(timeLine, &QTimeLine::finished, this, &QWidget::close);
     connect(timeLine, &QTimeLine::stateChanged, this, &QWidget::show);
     timeLine->start();
