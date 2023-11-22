@@ -10,9 +10,9 @@ void Fader::crossfade(QWidget *w) {
 Fader::Fader(QWidget *widget, QPixmap pixmap) : QWidget(widget), pixmap(pixmap) {
     setAttribute(Qt::WA_StaticContents);
     setAttribute(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_Disabled);
     resize(widget->size());
     timeLine = new QTimeLine(250, this);
-    timeLine->setEasingCurve(QEasingCurve::Linear);
     timeLine->setFrameRange(14, 1);
     connect(timeLine, &QTimeLine::frameChanged, this, [this](int) { update(); });
     connect(timeLine, &QTimeLine::finished, this, &QWidget::close);
