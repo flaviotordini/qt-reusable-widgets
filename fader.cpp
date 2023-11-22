@@ -5,11 +5,10 @@ void Fader::crossfade(QWidget *w) {
     new Fader(w, w->grab());
 }
 
-Fader::Fader(QWidget *newWidget, QPixmap oldWidgetPixmap)
-    : QWidget(newWidget), frozenView(oldWidgetPixmap) {
+Fader::Fader(QWidget *widget, QPixmap pixmap) : QWidget(widget), pixmap(pixmap) {
     setAttribute(Qt::WA_StaticContents);
     setAttribute(Qt::WA_DeleteOnClose);
-    resize(newWidget->size());
+    resize(widget->size());
     timeLine = new QTimeLine(250, this);
     timeLine->setEasingCurve(QEasingCurve::Linear);
     timeLine->setFrameRange(14, 1);
@@ -24,5 +23,5 @@ void Fader::paintEvent(QPaintEvent *) {
     // qDebug() << timeLine->currentFrame() << opacity;
     QPainter painter(this);
     painter.setOpacity(opacity);
-    painter.drawPixmap(0, 0, frozenView);
+    painter.drawPixmap(0, 0, pixmap);
 }

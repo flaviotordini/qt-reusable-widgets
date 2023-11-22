@@ -7,7 +7,7 @@ class Fader : public QWidget {
     Q_OBJECT
 
 public:
-    Fader(QWidget *newWidget, QPixmap oldWidgetPixmap);
+    Fader(QWidget *widget, QPixmap pixmap);
     static void crossfade(QWidget *w);
 
 protected:
@@ -15,7 +15,7 @@ protected:
 
 private:
     QTimeLine *timeLine;
-    QPixmap frozenView;
+    const QPixmap pixmap;
 };
 
 #endif
