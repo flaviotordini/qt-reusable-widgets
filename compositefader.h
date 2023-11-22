@@ -7,17 +7,17 @@ class CompositeFader : public QWidget {
     Q_OBJECT
 
 public:
-    static void go(QWidget *newWidget, QPixmap oldWidgetPixmap);
+    static void go(QWidget *widget, QPixmap pixmap);
     CompositeFader();
 
 protected:
     void paintEvent(QPaintEvent *event);
 
 private:
-    void start(QWidget *newWidget, QPixmap oldWidgetPixmap);
+    void start(QWidget *newWidget, QPixmap pixmap);
 
     QTimeLine *timeLine;
-    QPixmap frozenView;
+    QPixmap pixmap;
 };
 
 #endif // COMPOSITEFADER_H
