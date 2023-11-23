@@ -23,6 +23,7 @@ MessageBar::MessageBar(QWidget *parent) : QWidget(parent) {
     closeButton->setIconSize({24, 24});
     closeButton->setAutoRaise(true);
     closeButton->setIcon(IconUtils::icon("close"));
+    closeButton->setCursor(Qt::ArrowCursor);
     connect(closeButton, &QToolButton::clicked, this, [this] {
         emit closed();
         hide();
