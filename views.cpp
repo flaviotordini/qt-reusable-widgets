@@ -11,9 +11,10 @@ void Views::goHome() {
 }
 
 void Views::setCurrentWidget(QWidget *widget) {
-    QStackedWidget::setCurrentWidget(widget);
     auto previous = history.isEmpty() ? nullptr : history.top();
+    if (previous == widget) return;
     if (previous) previous->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    QStackedWidget::setCurrentWidget(widget);
     widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     history.push(widget);
 }
