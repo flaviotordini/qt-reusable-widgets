@@ -54,16 +54,17 @@ ZoomableUI::ZoomableUI(QMainWindow &window) : QObject(&window) {
     int zoom = settings.value("zoom", defaultZoom).toInt();
     if (zoom) applyZoom(zoom, false);
 
-    auto createAction = [this, applyZoom, &window](QString text, QKeySequence keySeq, int zoom) {
+    auto createAction = [this, applyZoom, &window](QString text, QList<QKeySequence> keys,
+                                                   int zoom) {
         auto action = new QAction(text, &window);
-        action->setShortcut(keySeq);
+        action->setShortcuts(keys);
         action->setAutoRepeat(false);
         window.addAction(action);
         actions.append(action);
         connect(action, &QAction::triggered, this, [applyZoom, zoom] { applyZoom(zoom); });
     };
 
-    createAction(tr("Zoom In"), QKeySequence(Qt::CTRL | Qt::Key_Plus), 1);
-    createAction(tr("Zoom Out"), QKeySequence(Qt::CTRL | Qt::Key_Minus), -1);
-    createAction(tr("Reset Zoom"), QKeySequence(Qt::CTRL | Qt::Key_0), 0);
+    createAction(tr("Zoom In"), {Qt::CTRL | Qt::Key_Plus, Qt::CTRL | Qt::Key_Asterisk}, 1);
+    createAction(tr("Zoom Out"), {Qt::CTRL | Qt::Key_Minus}, -1);
+    createAction(tr("Reset Zoom"), {Qt::CTRL | Qt::Key_0}, 0);
 }
