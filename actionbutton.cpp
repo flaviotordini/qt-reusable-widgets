@@ -4,13 +4,15 @@ ActionButton::ActionButton(QWidget *parent) : QPushButton(parent), action(0) {}
 
 void ActionButton::setAction(QAction *newAction) {
     if (action && action != newAction) {
-        disconnect(action, &QAction::changed, this, &ActionButton::updateButtonStatusFromAction);
+        action->disconnect(this);
         disconnect(this, &QAbstractButton::clicked, action, &QAction::trigger);
     }
     action = newAction;
     if (action) {
         updateButtonStatusFromAction();
         connect(action, &QAction::changed, this, &ActionButton::updateButtonStatusFromAction);
+        connect(action, &QAction::visibleChanged, this,
+                [this] { setVisible(action->isVisible()); });
         connect(this, &QAbstractButton::clicked, action, &QAction::trigger);
     }
 }
